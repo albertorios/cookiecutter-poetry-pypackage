@@ -105,8 +105,13 @@ publish: build ## package and upload a release
 ###########
 # install #
 ###########
-install: poetry-install clean ## install the package to the active Python's site-packages
-	pip install .
+ENVIRONMENT ?= development
+install:  clean ## install the package to the active Python's site-packages
+	ifeq ($(ENVIRONMENT), "development")
+	  $(MAKE) poetry-install
+	else
+	  pip install .
+	endif
 
 ##########
 # docker #
