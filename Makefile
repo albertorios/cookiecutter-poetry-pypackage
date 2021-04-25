@@ -65,9 +65,12 @@ poetry-requirements-dev-txt: poetry-export-reqs ## export dev dependencies to re
 ###########
 # version #
 ###########
-version-bump-major: bump2version major ## bump major version
-version-bump-minor: bump2version minor ## bump minor version
-version-bump-patch: bump2version patch ## bump patch version
+version-bump-major: ## bump major version
+	bump2version major
+version-bump-minor: ## bump minor version
+	bump2version minor
+version-bump-patch: ## bump patch version
+	bump2version patch
 
 ###############
 # lint & test #

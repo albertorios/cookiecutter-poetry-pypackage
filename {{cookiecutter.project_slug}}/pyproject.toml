@@ -30,8 +30,9 @@ pip = "^21.1"
 wheel = "^0.36.2"
 coverage = {extras = ["toml"], version = "^5.5"}
 
-
 {%- if 'no' not in cookiecutter.command_line_interface|lower %}
+
 [tool.poetry.scripts]
 {{ cookiecutter.project_slug }} = "{{ cookiecutter.project_slug }}.cli:main"
+
 {%- endif %}
