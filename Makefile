@@ -52,7 +52,7 @@ poetry-install: poetry-init
 poetry-requirements-txt: ## export dependencies to requirements.txt
 	poetry export --without-hashes -f requirements.txt | sed -e 's/;.*//g' > requirements.txt
 
-poetry-requirements-dev-txt: poetry-export-reqs ## export dev dependencies to requirements_dev.txt (EXPERIMENTAL)
+poetry-requirements-dev-txt: poetry-requirements-txt ## export dev dependencies to requirements_dev.txt (EXPERIMENTAL)
 	poetry export --without-hashes --dev -f requirements.txt | sed -e 's/;.*//g' > requirements_dev.txt
 	cat requirements.txt requirements_dev.txt \
 	| sort | uniq -u | sed -e "s/==.*//g" \
