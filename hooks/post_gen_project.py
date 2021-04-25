@@ -17,5 +17,5 @@ if __name__ == '__main__':
         cli_file = os.path.join('{{ cookiecutter.project_slug }}', 'cli.py')
         remove_file(cli_file)
 
-    if 'Proprietary' == '{{ cookiecutter.open_source_license }}':
+    if 'Proprietary' == '{{ cookiecutter.license }}':
         remove_file('LICENSE')
