@@ -1,0 +1,12 @@
+{
+  "full_name": "John Doe",
+  "email": "john.doe@example.com",
+  "github_username": "johndoe",
+  "project_name": "My Awesome Python Package",
+  "project_slug": "{{ cookiecutter.project_name.lower().replace(' ', '_').replace('-', '_') }}",
+  "project_short_description": "Awesome Python code.",
+  "version": "0.1.0",
+  "command_line_interface": ["Click", "Argparse", "No command-line interface"],
+  "create_author_file": "y",
+  "license": ["MIT", "Apache-2.0", "BSD-3-Clause", "GPL-3.0-only", "Proprietary"]
+}

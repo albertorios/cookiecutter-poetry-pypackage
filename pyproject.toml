@@ -1,0 +1,30 @@
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry]
+name = "cookiecutter-poetry-pypackage"
+repository = "https://github.com/albertorios/cookiecutter-poetry-pypackage"
+version = "0.1.0"
+description = ""
+authors = ["albertorios <7119264+albertorios@users.noreply.github.com>"]
+license = "MIT"
+readme = "README.md"
+keywords = ["cookiecutter", "poetry", "pypackage"]
+
+[tool.poetry.dependencies]
+python = "^3.6.5"
+
+[tool.poetry.dev-dependencies]
+pytest = "^5.2"
+cookiecutter = "^1.7.2"
+tox = "^3.23.0"
+bump2version = "^1.0.1"
+flake8 = "^3.9.1"
+pip = "^21.1"
+wheel = "^0.36.2"
+
+[[tool.poetry.source]]
+name = "default_pypi"
+url = "https://pypi.python.org/simple"
+secondary = false
