@@ -114,7 +114,7 @@ endif
 ##########
 # docker #
 ##########
-PROJECT_NAME = $(shell python setup.py --name)
+PROJECT_NAME = $(shell poetry version | cut -d ' ' -f 1)
 GIT_SHORT_HASH = $(shell git rev-parse --short HEAD)
 DOCKER_RUN_CMD ?= help
 

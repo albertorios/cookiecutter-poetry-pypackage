@@ -1,5 +1,5 @@
 FROM fkrull/multi-python:bionic
-LABEL maintainer="7119264+albertorios@users.noreply.github.com"
+LABEL maintainer="{{ cookiecutter.email }}"
 
 ENV DEBIAN_FRONTEND noninteractive
 ENV TERM linux
@@ -13,14 +13,11 @@ WORKDIR /python-package
 COPY AUTHORS.md ./AUTHORS.md
 COPY LICENSE ./LICENSE
 COPY README.md ./README.md
-COPY cookiecutter.json ./cookiecutter.json
-COPY cookiecutter_poetry_pypackage/ ./cookiecutter_poetry_pypackage/
-COPY hooks/ ./hooks/
+COPY {{cookiecutter.project_slug}}/ ./{{cookiecutter.project_slug}}/
 COPY tests/ ./tests/
 COPY pyproject.toml ./pyproject.toml
 COPY setup.cfg ./setup.cfg
 COPY tox.ini ./tox.ini
-COPY {{cookiecutter.project_slug}}/ ./{{cookiecutter.project_slug}}/
 COPY scripts/ /python-package/scripts/
 COPY Makefile /python-package/Makefile
 
