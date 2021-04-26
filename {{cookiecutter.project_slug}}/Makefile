@@ -13,7 +13,6 @@
 help: ## Prints all available targets w/ descriptions (Default Target)
 	@awk 'BEGIN {FS = ":.*?## "} /^[a-zA-Z_-]+:.*?## / {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}' $(MAKEFILE_LIST)
 
-
 #########
 # clean #
 #########
@@ -53,7 +52,7 @@ poetry-install: poetry-init
 poetry-requirements-txt: ## export dependencies to requirements.txt
 	poetry export --without-hashes -f requirements.txt | sed -e 's/;.*//g' > requirements.txt
 
-poetry-requirements-dev-txt: poetry-export-reqs ## export dev dependencies to requirements_dev.txt (EXPERIMENTAL)
+poetry-requirements-dev-txt: poetry-requirements-txt ## export dev dependencies to requirements_dev.txt (EXPERIMENTAL)
 	poetry export --without-hashes --dev -f requirements.txt | sed -e 's/;.*//g' > requirements_dev.txt
 	cat requirements.txt requirements_dev.txt \
 	| sort | uniq -u | sed -e "s/==.*//g" \
@@ -66,9 +65,12 @@ poetry-requirements-dev-txt: poetry-export-reqs ## export dev dependencies to re
 ###########
 # version #
 ###########
-version-bump-major: bump2version major ## bump major version
-version-bump-minor: bump2version minor ## bump minor version
-version-bump-patch: bump2version patch ## bump patch version
+version-bump-major: ## bump major version
+	bump2version major
+version-bump-minor: ## bump minor version
+	bump2version minor
+version-bump-patch: ## bump patch version
+	bump2version patch
 
 ###############
 # lint & test #
@@ -93,6 +95,7 @@ POETRY_PYPI_REPO_URL ?= # Set environment variable to override
 POETRY_PYPI_TOKEN_PYPI ?= # Set environment variable to use
 POETRY_HTTP_BASIC_PYPI_USERNAME ?= # Set environment variable to use
 POETRY_HTTP_BASIC_PYPI_PASSWORD ?= # Set environment variable to use
+
 build: clean ## builds source and wheel package
 	poetry build
 
@@ -103,13 +106,19 @@ publish: build ## package and upload a release
 ###########
 # install #
 ###########
-install: poetry-install clean ## install the package to the active Python's site-packages
+ENVIRONMENT ?= development
+
+install:  clean ## install the package to the active Python's site-packages
+ifeq ($(ENVIRONMENT), development)
+	$(MAKE) poetry-install
+else
 	pip install .
+endif
 
 ##########
 # docker #
 ##########
-PROJECT_NAME = $(shell python setup.py --name)
+PROJECT_NAME = $(shell poetry version | cut -d ' ' -f 1)
 GIT_SHORT_HASH = $(shell git rev-parse --short HEAD)
 DOCKER_RUN_CMD ?= help
 
