@@ -1,2 +1,2 @@
 # cookiecutter_poetry_pypackage
-TODO
+NOTE: This is a work in progress
