@@ -91,6 +91,7 @@ POETRY_PYPI_REPO_URL ?= # Set environment variable to override
 POETRY_PYPI_TOKEN_PYPI ?= # Set environment variable to use
 POETRY_HTTP_BASIC_PYPI_USERNAME ?= # Set environment variable to use
 POETRY_HTTP_BASIC_PYPI_PASSWORD ?= # Set environment variable to use
+
 build: clean ## builds source and wheel package
 	poetry build
 
@@ -102,12 +103,13 @@ publish: build ## package and upload a release
 # install #
 ###########
 ENVIRONMENT ?= development
+
 install:  clean ## install the package to the active Python's site-packages
-	ifeq ($(ENVIRONMENT), "development")
-	  $(MAKE) poetry-install
-	else
-	  pip install .
-	endif
+ifeq ($(ENVIRONMENT), development)
+	$(MAKE) poetry-install
+else
+	pip install .
+endif
 
 ##########
 # docker #
