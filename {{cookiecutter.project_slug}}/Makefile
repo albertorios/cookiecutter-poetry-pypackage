@@ -1,8 +1,8 @@
 .PHONY: help
-.PHONY: clean clean-build clean-pyc clean-test
+.PHONY: clean clean-build clean-pyc clean-test clean-dev
 .PHONY: poetry-init poetry-requirements-txt poetry-requirements-dev-txt
 .PHONY: version-bump-major version-bump-minor version-bump-patch
-.PHONY: lint test test-all coverage
+.PHONY: lint test test-all
 .PHONY: build publish install
 .PHONY: docker-build docker-rm docker-run
 .DEFAULT_GOAL := help
@@ -16,7 +16,7 @@ help: ## Prints all available targets w/ descriptions (Default Target)
 #########
 # clean #
 #########
-clean: clean-build clean-pyc clean-test ## remove all build, test, coverage and Python artifacts
+clean: clean-build clean-pyc clean-test clean-dev ## remove all build, test, coverage and Python artifacts
 
 clean-build: ## remove build artifacts
 	rm -fr build/
@@ -37,6 +37,12 @@ clean-test: ## remove test and coverage artifacts
 	rm -fr htmlcov/
 	rm -fr .pytest_cache
 
+clean-dev: ## remove development artifacts
+	rm -f requirements.txt
+	rm -f requirements_dev.txt
+	rm -f poetry.lock
+
+
 ##########
 # poetry #
 ##########
@@ -46,7 +52,6 @@ poetry-init: ## install poetry
 	poetry --version
 
 poetry-install: poetry-init
-	rm -f poetry.lock
 	poetry install
 
 poetry-requirements-txt: ## export dependencies to requirements.txt

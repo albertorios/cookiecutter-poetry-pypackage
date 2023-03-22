@@ -13,7 +13,7 @@ I kept seeing mentions of Poetry online, so I decided to take a weekend to learn
 
 ## Before You Get Started
 Make sure to have the following installed:
-* Python 3.6+
+* Python 3.10.10+
 * Docker
 
 ## Generate Python Package
@@ -40,6 +40,7 @@ clean                          remove all build, test, coverage and Python artif
 clean-build                    remove build artifacts
 clean-pyc                      remove Python file artifacts
 clean-test                     remove test and coverage artifacts
+clean-dev                      remove development artifacts
 poetry-init                    install poetry
 poetry-requirements-txt        export dependencies to requirements.txt
 poetry-requirements-dev-txt    export dev dependencies to requirements_dev.txt (EXPERIMENTAL)
@@ -49,7 +50,6 @@ version-bump-patch             bump patch version
 lint                           check style with flake8
 test                           run tests quickly with the default Python
 test-all                       run tests on every Python version with tox
-coverage                       check code coverage quickly with the default Python
 build                          builds source and wheel package
 publish                        package and upload a release
 install                        install the package to the active Python's site-packages
@@ -61,7 +61,7 @@ docker-run                     runs named docker container
 ### `make install`
 `make install` initializes the project by:
 * Installing Poetry
- * If you're using a virtualenv, it will install poetry within the virtualenv. Otherwise, it will install poetry system wide.
+ * If you're using a virtualenv (recommended), it will install poetry within the virtualenv. Otherwise, it will install poetry system wide.
 * Installing dependencies and the generated Python package
 
 NOTE: The default behavior of this command can changed by setting the `ENVIRONMENT` variable from 'development' (default value) to any other value (ex. 'production'). This will install the generated python package via pip and will not install Poetry or the project's dependencies. Example:
