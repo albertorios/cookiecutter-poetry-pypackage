@@ -5,7 +5,7 @@ build-backend = "poetry.core.masonry.api"
 [tool.poetry]
 name = "cookiecutter-poetry-pypackage"
 repository = "https://github.com/albertorios/cookiecutter-poetry-pypackage"
-version = "0.1.0"
+version = "1.0.0"
 description = ""
 authors = ["albertorios <7119264+albertorios@users.noreply.github.com>"]
 license = "MIT"
