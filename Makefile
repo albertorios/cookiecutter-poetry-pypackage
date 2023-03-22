@@ -1,5 +1,5 @@
 .PHONY: help
-.PHONY: clean clean-build clean-pyc clean-test
+.PHONY: clean clean-build clean-pyc clean-test clean-dev
 .PHONY: poetry-init poetry-requirements-txt poetry-requirements-dev-txt
 .PHONY: version-bump-major version-bump-minor version-bump-patch
 .PHONY: lint test test-all
@@ -16,7 +16,7 @@ help: ## Prints all available targets w/ descriptions (Default Target)
 #########
 # clean #
 #########
-clean: clean-build clean-pyc clean-test ## remove all build, test, coverage and Python artifacts
+clean: clean-build clean-pyc clean-test clean-dev ## remove all build, test, coverage and Python artifacts
 
 clean-build: ## remove build artifacts
 	rm -fr build/
@@ -37,6 +37,11 @@ clean-test: ## remove test and coverage artifacts
 	rm -fr htmlcov/
 	rm -fr .pytest_cache
 
+clean-dev: ## remove development artifacts
+	rm -f requirements.txt
+	rm -f requirements_dev.txt
+	rm -f poetry.lock
+
 ##########
 # poetry #
 ##########
@@ -46,14 +51,13 @@ poetry-init: ## install poetry
 	poetry --version
 
 poetry-install: poetry-init
-	rm -f poetry.lock
 	poetry install
 
 poetry-requirements-txt: ## export dependencies to requirements.txt
 	poetry export --without-hashes -f requirements.txt | sed -e 's/;.*//g' > requirements.txt
 
 poetry-requirements-dev-txt: poetry-requirements-txt ## export dev dependencies to requirements_dev.txt (EXPERIMENTAL)
-	poetry export --without-hashes --dev -f requirements.txt | sed -e 's/;.*//g' > requirements_dev.txt
+	poetry export --without-hashes --with dev -f requirements.txt | sed -e 's/;.*//g' > requirements_dev.txt
 	cat requirements.txt requirements_dev.txt \
 	| sort | uniq -u | sed -e "s/==.*//g" \
 	| xargs -n 1 -P 8 -I % poetry show % \
