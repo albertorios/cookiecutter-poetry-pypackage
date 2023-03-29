@@ -1,17 +1,21 @@
-FROM fkrull/multi-python:bionic
+FROM python:3.8.16
 LABEL maintainer="{{ cookiecutter.email }}"
 
 ENV DEBIAN_FRONTEND noninteractive
 ENV TERM linux
 ENV PYTHONIOENCODING=utf-8
-ENV PATH="${PATH}:/root/.poetry/bin"
+ENV PATH="/root/.local/bin:${PATH}"
 
 RUN mkdir /python-package
 WORKDIR /python-package
 
 # Copy files
+{% if cookiecutter.license == 'y' -%}
 COPY AUTHORS.md ./AUTHORS.md
+{% endif %}
+{% if cookiecutter.license != 'Proprietary' -%}
 COPY LICENSE ./LICENSE
+{% endif %}
 COPY README.md ./README.md
 COPY {{cookiecutter.project_slug}}/ ./{{cookiecutter.project_slug}}/
 COPY tests/ ./tests/

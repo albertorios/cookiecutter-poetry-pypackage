@@ -13,7 +13,7 @@ readme = "README.md"
 keywords = ["{{ cookiecutter.project_slug }}"]
 
 [tool.poetry.dependencies]
-python = "^3.10.10"
+python = "^3.8.16"
 
 [tool.poetry.group.dev.dependencies]
 bump2version = "^1.0.1"
