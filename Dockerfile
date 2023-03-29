@@ -1,10 +1,10 @@
-FROM fkrull/multi-python:bionic
+FROM python:3.8.16
 LABEL maintainer="7119264+albertorios@users.noreply.github.com"
 
 ENV DEBIAN_FRONTEND noninteractive
 ENV TERM linux
 ENV PYTHONIOENCODING=utf-8
-ENV PATH="${PATH}:/root/.poetry/bin"
+ENV PATH="/root/.local/bin:${PATH}"
 
 RUN mkdir /python-package
 WORKDIR /python-package
