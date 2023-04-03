@@ -5,6 +5,7 @@
 .PHONY: lint test test-all
 .PHONY: build publish install
 .PHONY: docker-build docker-rm docker-run
+.SILENT: publish docker-run
 .DEFAULT_GOAL := help
 
 ########
@@ -96,17 +97,21 @@ coverage: ## check code coverage quickly with the default Python
 ###################
 # build & publish #
 ###################
-POETRY_PYPI_REPO_URL ?= # Set environment variable to override
-POETRY_PYPI_TOKEN_PYPI ?= # Set environment variable to use
-POETRY_HTTP_BASIC_PYPI_USERNAME ?= # Set environment variable to use
-POETRY_HTTP_BASIC_PYPI_PASSWORD ?= # Set environment variable to use
+PRIVATE_PYPI_URL ?= # Set environment variable to override
+PRIVATE_PYPI_USERNAME ?= # Set environment variable to use
+PRIVATE_PYPI_PASSWORD ?= # Set environment variable to use
 
 build: clean ## builds source and wheel package
 	poetry build
 
-publish: build ## package and upload a release
-	poetry config repositories.publish $(POETRY_PRIVATE_REPO_URL) --local
-	poetry publish
+poetry-repo-config:  ## configure pypi repo for publishing package
+	poetry config repositories.private_pypi $(PRIVATE_PYPI_URL)
+
+publish: build poetry-repo-config ## package and upload a release
+	poetry publish -r private_pypi -u $(PRIVATE_PYPI_USERNAME) -p $(PRIVATE_PYPI_PASSWORD)
+
+publish-dry-run: build poetry-repo-config ## dry-run publish
+	poetry publish -r private_pypi -u $(PRIVATE_PYPI_USERNAME) -p $(PRIVATE_PYPI_PASSWORD) --dry-run
 
 ###########
 # install #
@@ -123,7 +128,7 @@ endif
 ##########
 # docker #
 ##########
-PROJECT_NAME = $(shell poetry version | cut -d ' ' -f 1)
+PROJECT_NAME = $(shell ./scripts/get-project-name.sh)
 GIT_SHORT_HASH = $(shell git rev-parse --short HEAD)
 DOCKER_RUN_CMD ?= help
 
@@ -136,8 +141,7 @@ docker-rm: ## delete previously named docker container
 
 docker-run: docker-rm  ## runs named docker container
 	docker run --name $(GIT_SHORT_HASH) \
-		-e POETRY_PYPI_REPO_URL=$(POETRY_PYPI_REPO_URL) \
-		-e POETRY_PYPI_TOKEN_PYPI=$(POETRY_PYPI_TOKEN_PYPI) \
-		-e POETRY_HTTP_BASIC_PYPI_USERNAME=$(POETRY_HTTP_BASIC_PYPI_USERNAME) \
-		-e POETRY_HTTP_BASIC_PYPI_PASSWORD=$(POETRY_HTTP_BASIC_PYPI_PASSWORD) \
+		-e PRIVATE_PYPI_URL=$(PRIVATE_PYPI_URL) \
+		-e PRIVATE_PYPI_USERNAME=$(PRIVATE_PYPI_USERNAME) \
+		-e PRIVATE_PYPI_PASSWORD=$(PRIVATE_PYPI_PASSWORD) \
 		-i $(PROJECT_NAME) $(DOCKER_RUN_CMD)
